@@ -1,0 +1,5 @@
+<Project>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)../sources/*.cs" Link="SourceGeneration/%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

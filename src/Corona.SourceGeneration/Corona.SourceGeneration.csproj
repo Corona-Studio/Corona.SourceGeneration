@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <PackageId>Corona.SourceGeneration</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Corona Studio</Authors>
+    <Description>Source-embedded building blocks for incremental Roslyn generators.</Description>
+    <RepositoryUrl>https://github.com/Corona-Studio/Corona.SourceGeneration</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" PrivateAssets="all" />
+    <None Include="*.cs" Pack="true" PackagePath="sources/" />
+    <None Include="../../build/Corona.SourceGeneration.props" Pack="true" PackagePath="build/" />
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+</Project>

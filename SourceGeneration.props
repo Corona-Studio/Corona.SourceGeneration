@@ -1,0 +1,7 @@
+<Project>
+  <!-- Compile helpers into the analyzer: Roslyn does not probe arbitrary analyzer dependencies. -->
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)src/Corona.SourceGeneration/**/*.cs"
+             Link="SourceGeneration/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>
