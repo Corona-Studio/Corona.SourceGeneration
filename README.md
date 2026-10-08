@@ -22,6 +22,8 @@ This design embeds helpers inside each analyzer DLL, avoiding analyzer dependenc
 - `CSharpNames`: literal and identifier escaping, metadata identities and collision-free hint encoding.
 - `SymbolExtensions`: metadata attribute matching, partial-type validation and inheritance checks.
 - `SourceFile` / `SourceOutput`: immutable output and UTF-8 emission.
+- `XmlInputs`: XML parsing without external entities or disk access.
+- `testing/SourceGeneration.Testing.props`: optional, framework-independent generator driver helpers for net8.0+ test projects.
 
 Keep semantic analysis in the initial transform; project symbols into records and equatable collections before output. Use `ForAttributeWithMetadataName` for marker discovery. Treat resource files as `AdditionalFiles`, not untracked disk reads. Keep diagnostics in a separate output stream where locations would otherwise break model caching. Collect only when an output genuinely needs all inputs.
 
@@ -38,3 +40,5 @@ dotnet pack src/Corona.SourceGeneration/Corona.SourceGeneration.csproj -c Releas
 ```
 
 CI runs these commands on Windows and Linux and uploads the NuGet package for review. The repository is private; package publishing to a registry is a separate configured release step. Update each consumer's submodule pin deliberately after testing. Clone consumers with `git clone --recurse-submodules`.
+
+Private submodule checkout in a consumer's GitHub Actions requires an organization-approved token with read access to this repository (for example the existing `ACCESS_TOKEN` secret). The default `GITHUB_TOKEN` only grants access to the calling repository. Configure that secret on each consumer before enabling recursive checkout in CI. For test helpers, import `SourceGeneration/testing/SourceGeneration.Testing.props` in a test project that references Roslyn.
