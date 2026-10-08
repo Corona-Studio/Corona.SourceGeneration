@@ -11,8 +11,9 @@ internal static class CSharpNames
     public static string Identifier(string name) =>
         SyntaxFacts.GetKeywordKind(name) != SyntaxKind.None || SyntaxFacts.GetContextualKeywordKind(name) != SyntaxKind.None
             ? "@" + name : name;
-    public static bool IsIdentifier(string name) => SyntaxFacts.IsValidIdentifier(name) ||
-        SyntaxFacts.GetKeywordKind(name) != SyntaxKind.None || SyntaxFacts.GetContextualKeywordKind(name) != SyntaxKind.None;
+    public static bool IsIdentifier(string name) => name.Length > 0 && name[0] != '@' &&
+        (SyntaxFacts.IsValidIdentifier(name) || SyntaxFacts.GetKeywordKind(name) != SyntaxKind.None ||
+         SyntaxFacts.GetContextualKeywordKind(name) != SyntaxKind.None);
     public static string Literal(string value) => SymbolDisplay.FormatLiteral(value, true);
     public static string Namespace(INamespaceSymbol symbol) => symbol.IsGlobalNamespace ? "" :
         string.Join(".", symbol.ToDisplayString().Split('.').Select(Identifier));

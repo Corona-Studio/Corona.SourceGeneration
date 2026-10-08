@@ -26,6 +26,7 @@ public sealed class InfrastructureTests
         Assert.AreEqual("@class", CSharpNames.Identifier("class"));
         Assert.AreEqual("Value", CSharpNames.PropertyName("m_value"));
         Assert.AreEqual("", CSharpNames.PropertyName("___"));
+        Assert.IsFalse(CSharpNames.IsIdentifier("@escaped"));
         Assert.AreNotEqual(CSharpNames.HintName("A.B"), CSharpNames.HintName("A_B"));
         var literal = CSharpNames.Literal("\"\\\n");
         Assert.AreEqual("\"\\\n", SyntaxFactory.ParseExpression(literal).GetFirstToken().ValueText);
@@ -43,6 +44,7 @@ public sealed class InfrastructureTests
                 }
             }
             public static partial class Global;
+            public readonly ref partial struct RefType;
             """);
         var symbol = compilation.GetTypeByMetadataName("namespace.Outer`1+event`1")!;
         var model = TypeDeclarationModel.From(symbol);
@@ -51,6 +53,8 @@ public sealed class InfrastructureTests
         model.Open(writer); writer.Line("public int Generated => 1;"); model.Close(writer);
         var global = TypeDeclarationModel.From(compilation.GetTypeByMetadataName("Global")!);
         global.Open(writer); writer.Line("public static int Value => 2;"); global.Close(writer);
+        var refType = TypeDeclarationModel.From(compilation.GetTypeByMetadataName("RefType")!);
+        refType.Open(writer); writer.Line("public int Value => 3;"); refType.Close(writer);
         var output = compilation.AddSyntaxTrees(CSharpSyntaxTree.ParseText(writer.ToString(), GeneratorTestHost.ParseOptions));
         Assert.AreEqual(0, output.GetDiagnostics().Count(static d => d.Severity == DiagnosticSeverity.Error),
             string.Join("\n", output.GetDiagnostics()));

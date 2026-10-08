@@ -14,7 +14,8 @@ internal sealed record TypeDeclarationModel(string Namespace, string Identity, E
         {
             var kind = type.IsRecord ? (type.IsValueType ? "record struct" : "record class") :
                 type.TypeKind == TypeKind.Interface ? "interface" : type.IsValueType ? "struct" : "class";
-            var modifiers = type.IsStatic ? "static " : type.IsValueType && type.IsReadOnly ? "readonly " : "";
+            var modifiers = (type.IsStatic ? "static " : type.IsValueType && type.IsReadOnly ? "readonly " : "") +
+                (type.IsRefLikeType ? "ref " : "");
             var parameters = type.TypeParameters.Length == 0 ? "" : "<" +
                 string.Join(", ", type.TypeParameters.Select(p =>
                     (p.Variance == VarianceKind.In ? "in " : p.Variance == VarianceKind.Out ? "out " : "") + CSharpNames.Identifier(p.Name))) + ">";
