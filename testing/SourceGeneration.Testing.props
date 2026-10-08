@@ -1,0 +1,5 @@
+<Project>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)GeneratorTestHost.cs" Link="SourceGeneration/GeneratorTestHost.cs" />
+  </ItemGroup>
+</Project>
