@@ -15,7 +15,7 @@ jobs:
           dotnet-version: '10.0.x'
       - run: dotnet test tests/Corona.SourceGeneration.Tests/Corona.SourceGeneration.Tests.csproj -c Release
       - run: dotnet pack src/Corona.SourceGeneration/Corona.SourceGeneration.csproj -c Release -o artifacts
-      - run: dotnet restore tests/PackageConsumer/PackageConsumer.csproj --source "${{ github.workspace }}/artifacts" --source https://api.nuget.org/v3/index.json
+      - run: dotnet restore tests/PackageConsumer/PackageConsumer.csproj --configfile tests/PackageConsumer/NuGet.Config
       - run: dotnet build tests/PackageConsumer/PackageConsumer.csproj -c Release --no-restore
       - uses: actions/upload-artifact@v4
         with:
